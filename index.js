@@ -43,6 +43,10 @@ async function addRating(userId, companyId, value) {
   }
 }
 
+app.get("/", (req, res) => {
+  res.send("Hola")
+})
+
 // Registro de clientes
 app.post('/register-client', async (req, res) => {
   const { name, email, password } = req.body;
