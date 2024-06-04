@@ -5,6 +5,7 @@ const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = new Sequelize('bxv90uo6q0zaovhloxbw', 'u7ejxe464fjxu68r', 'S88iB7HeRZhHUXk3CFcm', {
   host: 'bxv90uo6q0zaovhloxbw-mysql.services.clever-cloud.com',
   dialect: 'mysql',
+  dialectModule: require('mysql2')
 });
 
 // Modelo User
