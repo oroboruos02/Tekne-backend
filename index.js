@@ -210,20 +210,48 @@ app.post('/companies', async (req, res) => {
 app.post('/enviar-correo', async (req, res) => {
   const { nombre, correo, mensaje } = req.body;
 
-  let transporter = nodemailer.createTransport({
-    service: 'gmail',
+  // let transporter = nodemailer.createTransport({
+  //   service: 'gmail',
+  //   auth: {
+  //     user: process.env.EMAIL_USER,
+  //     pass: process.env.EMAIL_PASSWORD,
+  //   },
+  // });
+
+  // let mailOptions = {
+  //   from: process.env.EMAIL_USER,
+  //   to: 'arc.eseisnos@gmail.com',
+  //   subject: `Nuevo mensaje de ${nombre}`,
+  //   text: `Nombre: ${nombre}\nCorreo: ${correo}\n\nMensaje:\n${mensaje}`,
+  //   html: `<p>Nombre: ${nombre}</p><p>Correo: ${correo}</p><p>Mensaje:</p><p>${mensaje}</p>`,
+  // };
+
+  // transporter.sendMail(mailOptions, (error, info) => {
+  //   if (error) {
+  //     console.log(error);
+  //     res.status(500).send('Error al enviar el mensaje');
+  //   } else {
+  //     console.log('Correo enviado: ' + info.response);
+  //     res.status(200).send('Mensaje enviado correctamente');
+  //   }
+  // });
+
+  const transporter = nodemailer.createTransport({
+    host: 'smtppro.zoho.com',
+    port: 465, // o 587 para TLS
+    secure: true, // true para 465, false para otros puertos
     auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASSWORD,
-    },
+      user: process.env.EMAIL_USER, // Tu correo de Zoho Mail
+      pass: process.env.EMAIL_PASSWORD  // Tu contraseña de aplicación de Zoho Mail
+    }
   });
 
-  let mailOptions = {
+  const mailOptions = {
     from: process.env.EMAIL_USER,
-    to: 'arc.eseisnos@gmail.com',
+    to: correo,
     subject: `Nuevo mensaje de ${nombre}`,
     text: `Nombre: ${nombre}\nCorreo: ${correo}\n\nMensaje:\n${mensaje}`,
-    html: `<p>Nombre: ${nombre}</p><p>Correo: ${correo}</p><p>Mensaje:</p><p>${mensaje}</p>`,
+    html: `<p>Nombre: ${nombre}</p><p>Correo: ${correo}</p><p>Mensaje:</p><p>${mensaje}</p>`
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
